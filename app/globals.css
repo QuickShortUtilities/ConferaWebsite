@@ -21,6 +21,37 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+.accent-gradient {
+  background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+  transform: rotate(45deg);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
+}
+
 .confera-title {
   font-family: var(--font-outfit), sans-serif;
   background: linear-gradient(to bottom, #fff 40%, rgba(0, 163, 255, 0.7));
@@ -35,6 +66,7 @@ body {
     transform: translateY(20px);
     filter: blur(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
