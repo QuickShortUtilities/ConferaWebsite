@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import NeuralBackground from "@/components/NeuralBackground";
+import Countdown from "@/components/Countdown";
 
 export default function Home() {
     const [email, setEmail] = useState('');
@@ -57,6 +58,9 @@ export default function Home() {
                         Synchronizing Global Commerce
                     </p>
                 </motion.header>
+
+                {/* Countdown Timer */}
+                <Countdown />
 
                 {/* Central Glass Portal */}
                 <motion.div
@@ -172,15 +176,6 @@ export default function Home() {
                 </div>
             </div>
 
-            <footer className="mt-32 pb-12 text-[9px] text-gray-700 tracking-[0.5em] uppercase font-bold flex flex-col items-center gap-4">
-                <div className="h-px w-16 bg-white/5 mb-4"></div>
-                <span>© 2026 QuickShort LTD. GLOBAL OPERATIONS</span>
-                <div className="flex gap-8 mt-2 opacity-50 hover:opacity-100 transition-opacity">
-                    <span className="cursor-pointer hover:text-white">Protocol</span>
-                    <span className="cursor-pointer hover:text-white">Security</span>
-                    <span className="cursor-pointer hover:text-white">Nodes</span>
-                </div>
-            </footer>
-        </main>
+        </main >
     );
 }
