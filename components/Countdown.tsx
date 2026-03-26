@@ -113,8 +113,8 @@ export default function Countdown() {
     });
 
     useEffect(() => {
-        // Target Date: Friday, March 27, 2026, 12:30 GMT
-        const targetDate = new Date('March 27, 2026 12:30:00 GMT').getTime();
+        // Target Date: Friday, May 29, 2026, 12:30 GMT
+        const targetDate = new Date('May 29, 2026 12:30:00 GMT').getTime();
 
         const timer = setInterval(() => {
             const now = new Date().getTime();
@@ -179,7 +179,7 @@ export default function Countdown() {
 
             <div className="mt-4 flex justify-center items-center gap-3">
                 <div className="h-px w-8 bg-[#D4AF37]/20"></div>
-                <span className="text-[9px] font-bold tracking-[0.4em] text-[#D4AF37]/50 uppercase">Protocol Launch Arrival: 27.03.2026 | 12:30 GMT</span>
+                <span className="text-[9px] font-bold tracking-[0.4em] text-[#D4AF37]/50 uppercase">Protocol Launch Arrival: 29.05.2026 | 12:30 GMT</span>
                 <div className="h-px w-8 bg-[#D4AF37]/20"></div>
             </div>
         </motion.div>
