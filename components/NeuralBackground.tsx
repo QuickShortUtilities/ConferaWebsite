@@ -2,7 +2,11 @@
 
 import React, { useEffect, useRef } from 'react';
 
-const NeuralBackground: React.FC = () => {
+interface Props {
+    accentColor?: string;
+}
+
+const NeuralBackground: React.FC<Props> = ({ accentColor = 'rgba(0, 163, 255, 0.2)' }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -12,31 +16,39 @@ const NeuralBackground: React.FC = () => {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-        let particles: any[] = [];
+        let animationFrameId: number;
+        let width = 0;
+        let height = 0;
+        let particles: { x: number; y: number; vx: number; vy: number; size: number }[] = [];
 
         const init = () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
             particles = [];
 
-            for (let i = 0; i < 120; i++) {
+            // Reduce particle count on mobile for performance
+            const count = window.innerWidth < 768 ? 50 : 110;
+
+            for (let i = 0; i < count; i++) {
                 particles.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    vx: (Math.random() - 0.5) * 0.4,
-                    vy: (Math.random() - 0.5) * 0.4,
-                    size: Math.random() * 2 + 0.5
+                    vx: (Math.random() - 0.5) * 0.35,
+                    vy: (Math.random() - 0.5) * 0.35,
+                    size: Math.random() * 1.5 + 0.5
                 });
             }
         };
 
         const draw = () => {
             ctx.clearRect(0, 0, width, height);
-            ctx.strokeStyle = 'rgba(0, 163, 255, 0.2)';
-            ctx.fillStyle = 'rgba(0, 163, 255, 0.6)';
-            ctx.lineWidth = 0.8;
+
+            // Use accent color for strokes and fills
+            ctx.strokeStyle = accentColor;
+            ctx.fillStyle = accentColor;
+            ctx.lineWidth = 0.7;
+
+            const connectionDist = window.innerWidth < 768 ? 130 : 170;
 
             particles.forEach((p, i) => {
                 p.x += p.vx;
@@ -52,8 +64,8 @@ const NeuralBackground: React.FC = () => {
                 for (let j = i + 1; j < particles.length; j++) {
                     const p2 = particles[j];
                     const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 180) {
-                        ctx.globalAlpha = (1 - (dist / 180)) * 0.7;
+                    if (dist < connectionDist) {
+                        ctx.globalAlpha = (1 - dist / connectionDist) * 0.5;
                         ctx.beginPath();
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
@@ -63,18 +75,18 @@ const NeuralBackground: React.FC = () => {
                 ctx.globalAlpha = 1;
             });
 
-            requestAnimationFrame(draw);
+            animationFrameId = requestAnimationFrame(draw);
         };
 
         window.addEventListener('resize', init);
         init();
-        const animationId = requestAnimationFrame(draw);
+        animationFrameId = requestAnimationFrame(draw);
 
         return () => {
             window.removeEventListener('resize', init);
-            cancelAnimationFrame(animationId);
+            cancelAnimationFrame(animationFrameId);
         };
-    }, []);
+    }, [accentColor]);
 
     return (
         <canvas

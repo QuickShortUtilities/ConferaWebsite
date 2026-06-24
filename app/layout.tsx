@@ -6,8 +6,33 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
-    title: "Confera | Connecting Business Globally",
-    description: "Synchronizing the Future of Connection with Neural Intelligence.",
+    title: {
+        default: "Confera — Meet Smarter",
+        template: "%s | Confera"
+    },
+    description: "The professional network that knows who to put in front of you. Scan. Connect. Confera handles the rest.",
+    keywords: ["professional networking", "AI networking", "NFC business card", "CRM sync", "event networking", "iOS app"],
+    authors: [{ name: "Confera" }],
+    creator: "Confera",
+    openGraph: {
+        type: "website",
+        locale: "en_GB",
+        url: "https://confera.digital",
+        siteName: "Confera",
+        title: "Confera — Meet Smarter",
+        description: "The professional network that knows who to put in front of you. Scan. Connect. Confera handles the rest.",
+        images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Confera" }]
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Confera — Meet Smarter",
+        description: "The professional network that knows who to put in front of you.",
+        images: ["/og-image.png"],
+    },
+    robots: {
+        index: true,
+        follow: true,
+    },
 };
 
 export default function RootLayout({
