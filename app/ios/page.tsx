@@ -37,6 +37,69 @@ const mockups = [
     '/showcase/mockup-5.png',
 ];
 
+function MockupItem({ src, i, mouseX, mouseY }: { src: string, i: number, mouseX: any, mouseY: any }) {
+    const isCenter = i === 2;
+    const offset = i - 2; // -2, -1, 0, 1, 2
+    
+    // Base static transforms for the fan effect
+    const baseZ = -Math.abs(offset) * 80; // push back
+    const baseX = offset * 90; // push left/right
+    const baseRotateY = offset * -12; // fan out rotation
+    
+    // Interactive mouse parallax (subtle)
+    const rotateX = useSpring(useTransform(mouseY, [-300, 300], [8, -8]), { stiffness: 150, damping: 20 });
+    const mouseRotateY = useSpring(useTransform(mouseX, [-300, 300], [-8, 8]), { stiffness: 150, damping: 20 });
+    const xOffset = useSpring(useTransform(mouseX, [-300, 300], [offset * -10, offset * 10]), { stiffness: 150, damping: 20 });
+    const yOffset = useSpring(useTransform(mouseY, [-300, 300], [-10, 10]), { stiffness: 150, damping: 20 });
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 150, rotateY: 0, x: 0, z: -500 }}
+            animate={{ 
+                opacity: 1, 
+                y: Math.abs(offset) * 20, // push down slightly
+                rotateY: baseRotateY, 
+                x: baseX, 
+                z: baseZ 
+            }}
+            transition={{ 
+                duration: 1.2, 
+                ease: [0.22, 1, 0.36, 1],
+                delay: i * 0.15 
+            }}
+            className="absolute w-[65%] sm:w-[50%] md:w-[60%] lg:w-[65%]"
+            style={{ 
+                zIndex: 10 - Math.abs(offset),
+                rotateX,
+                rotateY: mouseRotateY,
+                x: xOffset,
+                y: yOffset,
+                transformStyle: 'preserve-3d'
+            }}
+        >
+            {isCenter && <div className="absolute inset-0 bg-blue-500/20 blur-[80px] rounded-full -z-10" />}
+            
+            <motion.div 
+                className={`relative rounded-[2.5rem] md:rounded-[3rem] border border-white/10 bg-[#050505] ${isCenter ? 'shadow-[0_40px_80px_rgba(0,163,255,0.25)]' : 'shadow-2xl'}`}
+                whileHover={{ y: -20, z: baseZ + 30, rotateY: baseRotateY * 0.5, transition: { duration: 0.4 } }}
+            >
+                {/* Dark overlay for back items */}
+                {!isCenter && <div className="absolute inset-0 bg-black/40 rounded-[2.5rem] md:rounded-[3rem] pointer-events-none z-10 transition-opacity duration-300 group-hover:opacity-10" />}
+                
+                <Image
+                    src={src}
+                    alt={`Confera iOS Mockup ${i + 1}`}
+                    width={600}
+                    height={1200}
+                    className="w-full h-auto rounded-[2.5rem] md:rounded-[3rem]"
+                />
+                {/* Holographic overlay */}
+                <div className="absolute inset-0 rounded-[2.5rem] md:rounded-[3rem] bg-gradient-to-tr from-blue-500/10 via-transparent to-white/10 pointer-events-none z-20" />
+            </motion.div>
+        </motion.div>
+    );
+}
+
 function ShowcaseDeck() {
     const ref = useRef<HTMLDivElement>(null);
     const mouseX = useMotionValue(0);
@@ -62,69 +125,9 @@ function ShowcaseDeck() {
             className="relative w-full aspect-[4/5] flex items-center justify-center cursor-pointer perspective-[1500px]"
             style={{ perspective: 1500 }}
         >
-            {mockups.map((src, i) => {
-                const isCenter = i === 2;
-                const offset = i - 2; // -2, -1, 0, 1, 2
-                
-                // Base static transforms for the fan effect
-                const baseZ = -Math.abs(offset) * 80; // push back
-                const baseX = offset * 90; // push left/right
-                const baseRotateY = offset * -12; // fan out rotation
-                
-                // Interactive mouse parallax (subtle)
-                const rotateX = useSpring(useTransform(mouseY, [-300, 300], [8, -8]), { stiffness: 150, damping: 20 });
-                const mouseRotateY = useSpring(useTransform(mouseX, [-300, 300], [-8, 8]), { stiffness: 150, damping: 20 });
-                const xOffset = useSpring(useTransform(mouseX, [-300, 300], [offset * -10, offset * 10]), { stiffness: 150, damping: 20 });
-                const yOffset = useSpring(useTransform(mouseY, [-300, 300], [-10, 10]), { stiffness: 150, damping: 20 });
-
-                return (
-                    <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 150, rotateY: 0, x: 0, z: -500 }}
-                        animate={{ 
-                            opacity: 1, 
-                            y: Math.abs(offset) * 20, // push down slightly
-                            rotateY: baseRotateY, 
-                            x: baseX, 
-                            z: baseZ 
-                        }}
-                        transition={{ 
-                            duration: 1.2, 
-                            ease: [0.22, 1, 0.36, 1],
-                            delay: i * 0.15 
-                        }}
-                        className="absolute w-[65%] sm:w-[50%] md:w-[60%] lg:w-[65%]"
-                        style={{ 
-                            zIndex: 10 - Math.abs(offset),
-                            rotateX,
-                            rotateY: mouseRotateY,
-                            x: xOffset,
-                            y: yOffset,
-                            transformStyle: 'preserve-3d'
-                        }}
-                    >
-                        {isCenter && <div className="absolute inset-0 bg-blue-500/20 blur-[80px] rounded-full -z-10" />}
-                        
-                        <motion.div 
-                            className={`relative rounded-[2.5rem] md:rounded-[3rem] border border-white/10 bg-[#050505] ${isCenter ? 'shadow-[0_40px_80px_rgba(0,163,255,0.25)]' : 'shadow-2xl'}`}
-                            whileHover={{ y: -20, z: baseZ + 30, rotateY: baseRotateY * 0.5, transition: { duration: 0.4 } }}
-                        >
-                            {/* Dark overlay for back items */}
-                            {!isCenter && <div className="absolute inset-0 bg-black/40 rounded-[2.5rem] md:rounded-[3rem] pointer-events-none z-10 transition-opacity duration-300 group-hover:opacity-10" />}
-                            
-                            <Image
-                                src={src}
-                                alt={`Confera iOS Mockup ${i + 1}`}
-                                width={600}
-                                height={1200}
-                                className="w-full h-auto rounded-[2.5rem] md:rounded-[3rem]"
-                            />
-                            {/* Holographic overlay */}
-                            <div className="absolute inset-0 rounded-[2.5rem] md:rounded-[3rem] bg-gradient-to-tr from-blue-500/10 via-transparent to-white/10 pointer-events-none z-20" />
-                        </motion.div>
-                    </motion.div>
-                );
-            })}
+            {mockups.map((src, i) => (
+                <MockupItem key={i} src={src} i={i} mouseX={mouseX} mouseY={mouseY} />
+            ))}
         </div>
     );
 }
