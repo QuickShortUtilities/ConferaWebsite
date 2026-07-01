@@ -49,11 +49,7 @@ export default function Home() {
                 className="absolute top-0 w-full z-20 px-8 py-6 flex justify-between items-center"
             >
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 accent-gradient rounded-lg flex items-center justify-center shadow-lg transform rotate-3">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" className="w-5 h-5">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                        </svg>
-                    </div>
+                    <img src="/logo-dark.png" alt="Confera Logo" className="w-8 h-8 object-contain drop-shadow-md" />
                     <span className="text-xs text-gray-500 font-bold tracking-[0.3em] uppercase">Confera</span>
                 </div>
                 <a href="/ios" className="text-xs text-gray-600 hover:text-gray-300 font-bold tracking-[0.2em] uppercase transition-colors">
