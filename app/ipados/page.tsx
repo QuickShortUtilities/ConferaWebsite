@@ -58,7 +58,7 @@ export default function IPadOSPage() {
                     <div className="absolute -inset-10 bg-violet-500/8 blur-[100px] rounded-full" />
                     <div className="relative glass p-4 md:p-8 rounded-[3rem] border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.6)]">
                         <Image
-                            src="/mockup2.png"
+                            src="/ipados_scanner.png"
                             alt="Confera iPadOS Interface"
                             width={1600}
                             height={900}
