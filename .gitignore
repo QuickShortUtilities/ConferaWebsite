@@ -14,7 +14,17 @@ yarn-debug.log*
 yarn-error.log*
 
 # Environment
+.env
 .env*.local
+
+# Certs/keys — should never be committed
+*.p12
+*.p8
+*.pem
+*.mobileprovision
+*.jks
+*.keystore
+GoogleService-Info.plist
 
 # OS
 .DS_Store
