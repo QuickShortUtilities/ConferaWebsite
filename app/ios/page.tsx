@@ -6,11 +6,6 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import NeuralBackground from "@/components/NeuralBackground";
 import PlatformNav from "@/components/PlatformNav";
 
-export const metadata = {
-    title: 'Confera for iOS — Mobile Intelligence',
-    description: 'The professional networking app for iPhone. Glass Scanner, NFC Handshake, and AI discovery — built for iPhone.',
-};
-
 const features = [
     {
         title: "Glass Scanner",
